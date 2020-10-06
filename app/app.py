@@ -4,8 +4,8 @@ import copy
 import random
 
 
-# eel.init("web")
-# eel.start("index.html", size=(700, 700))
+eel.init("web")
+eel.start("index.html", size=(700, 300))
 
 class Blog(object):
     def __init__(self, numb=1, title=None, text=None, tag=None, dat=datetime.date(2012, 12, 14), amount=0):
