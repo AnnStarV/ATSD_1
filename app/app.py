@@ -190,6 +190,7 @@ class BinHeap:
     def bubble_sort(nums):
         # Устанавливаем swapped в True, чтобы цикл запустился хотя бы один раз
         swapped = True
+
         while swapped:
             swapped = False
             for i in range(len(nums) - 1):
