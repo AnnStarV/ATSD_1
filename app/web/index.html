@@ -5,16 +5,26 @@
     <title>LR1</title>
     <link rel="icon" type="image/png" href="/ico.png">
     <style>
-    body {font-family: 'Times New Roman';}
-           .tab {
-            overflow: hidden;
-            border: 1px solid #ccc;
-            background-color: #f1f1f1;
+            *{
+            padding:0;
+            margin: 0;
+            }
+            body {
+                font-family: sans-serif;
+            }
+         .hidden-panel-content {
+            display: flex;
+            flex-direction: column;
+            background-color: #00a4ff;
+            width: 20%;
+            height:100vh;
         }
 
-        .tab button {
+        .hidden-panel-content button {
             background-color: inherit;
             float: left;
+            display: flex;
+            flex-direction: row;
             border: none;
             outline: none;
             cursor: pointer;
@@ -22,11 +32,7 @@
             transition: 0.3s;
         }
 
-        .tab button:hover {
-            background-color: #ddd;
-        }
-
-        .tab button.active {
+        .hidden-panel-content button.active {
             background-color: #ccc;
         }
 
@@ -39,14 +45,20 @@
   </style>
 </head>
 <body>
-        <p>Click on the buttons inside the tabbed menu:</p>
-
-        <div class="tab">
-          <button class="tablinks" onclick="openTab(event, 'London')">London</button>
-          <button class="tablinks" onclick="openTab(event, 'Paris')">Paris</button>
-          <button class="tablinks" onclick="openTab(event, 'Tokyo')">Tokyo</button>
+<input type="checkbox" id="nav-toggle" hidden>
+    <section>
+        <div class="hidden-panel">
+            <span class="hidden-panel-close" data-js="hidden-panel-close">Close</span>
+            <div class="hidden-panel-content">
+                <button class="tablinks" onclick="openTab(event, 'London')">London</button>
+                <button class="tablinks" onclick="openTab(event, 'Paris')">Paris</button>
+                <button class="tablinks" onclick="openTab(event, 'Tokyo')">Tokyo</button>
+            </div>
         </div>
-
+        <div class="menu-toggle" data-js="menu-toggle">
+            <img src="burger.png" class="menu-toggle-grippy"/>
+        </div>
+    </section>
         <div id="London" class="tabcontent">
           <h3>London</h3>
           <p>London is the capital city of England.</p>
@@ -75,6 +87,30 @@ function openTab(evt, cityName) {
     }
     document.getElementById(cityName).style.display = "block";
     evt.currentTarget.className += " active";
+
+    var menuToggle = document.querySelector('[data-js="menu-toggle"]');
+
+    // Remove this setInterval to trigger the open/close manually through the UI
+    var interval = setInterval(function() {
+      menuToggle.click();
+    }, 2000);
+
+    // Clear the interval on any click
+    document.body.addEventListener('click', function () {
+       clearInterval(interval);
+    });
+
+    menuToggle.addEventListener('click', function () {
+      document.body.classList.toggle('panel-open');
+      menuToggle.classList.toggle('open');
+    });
+
+    var closePanel = document.querySelector('[data-js="hidden-panel-close"]');
+
+    closePanel.addEventListener('click', function () {
+      document.body.classList.remove('panel-open');
+      menuToggle.classList.remove('open');
+    });
 }
 </script>
 
