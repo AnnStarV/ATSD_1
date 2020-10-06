@@ -187,38 +187,42 @@ class BinHeap:
             if(self.heaplist[i]==elem):
                 del self.heaplist[i]
 
-    def bubble_sort(nums):
-        # Устанавливаем swapped в True, чтобы цикл запустился хотя бы один раз
-        swapped = True
+    def heap_sort(self, list):
+        self.heaplist = list
+        self.heapsize = len(list) - 1
 
-        while swapped:
-            swapped = False
-            for i in range(len(nums) - 1):
-                if nums[i] > nums[i + 1]:
-                    # Меняем элементы
-                    nums[i], nums[i + 1] = nums[i + 1], nums[i]
-                    # Устанавливаем swapped в True для следующей итерации
-                    swapped = True
+        # Создаём Max Heap из списка
+        # Второй аргумент означает остановку алгоритма перед элементом -1, т.е.
+        # перед первым элементом списка
+        # 3-й аргумент означает повторный проход по списку в обратном направлении,
+        # уменьшая счётчик i на 1
 
-    # Проверяем, что оно работает
-    random_list_of_nums = [5, 2, 1, 8, 4]
-    bubble_sort(random_list_of_nums)
-    print(random_list_of_nums)
+        for i in range(len(list) // 2, -1, -1):
+            self.heapify(i)
+        # Перемещаем корень Max Heap в конец списка
+        for i in range(len(list) // 2, -1, -1):
+            self.heaplist[i], self.heaplist[0] = self.heaplist[0], self.heaplist[i]
+            self.heapify(i)
 
     def __str__(self):
         print(self.heaplist)
 
-
-heap = BinHeap()
-heap.buildHeap([3, 9, 2])
-heap.__str__()
-heap.insert(7)
-heap.buildHeap(heap.heaplist)
-heap.__str__()
-heap.delel(7)
-heap.buildHeap(heap.heaplist)
-heap.__str__()
-
+#
+# heap = BinHeap()
+# heap.buildHeap([3, 9, 2])
+# heap.__str__()
+# heap.insert(7)
+# heap.buildHeap(heap.heaplist)
+# heap.__str__()
+# heap.delel(7)
+# heap.buildHeap(heap.heaplist)
+# heap.__str__()
+#
+#
+# heap_2 = BinHeap()
+# random_list_of_nums = [35, 12, 43, 8, 2]
+# heap_2.heap_sort(random_list_of_nums)
+# heap_2.__str__()
 # el = Blog()
 # L = LinkedList()
 # L.insert(1)
