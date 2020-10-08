@@ -4,8 +4,8 @@ import copy
 import random
 
 
-eel.init("web")
-eel.start("index.html", size=(700, 300))
+# eel.init("web")
+# eel.start("index.html", size=(700, 300))
 
 class Blog(object):
     def __init__(self, numb=1, title=None, text=None, tag=None, dat=datetime.date(2012, 12, 14), amount=0):
@@ -27,6 +27,8 @@ class Blog(object):
               self.dat, '\nAmount: ', self.amount)
 
 
+# ---------------------------------------------------------------------------------------------------#
+
 class Node:
     def __init__(self, data):
         self.data = data
@@ -36,6 +38,8 @@ class Node:
     def __str__(self):
         return str(self.data)
 
+
+# ---------------------------------------------------------------------------------------------------#
 
 class LinkedList:
     def __init__(self):
@@ -144,7 +148,7 @@ class BinHeap:
     def right(self, i):
         return i * 2 + 2
 
-    def heapify(self, i):   #упорядочение кучи
+    def heapify(self, i):  # упорядочение кучи
         l = self.left(i)
         r = self.right(i)
         # Знаки
@@ -162,7 +166,7 @@ class BinHeap:
             self.heaplist[largest] = tmp
             self.heapify(largest)
 
-    def buildHeap(self, list):          #построение кучи
+    def buildHeap(self, list):  # построение кучи
         self.heaplist = list
         self.heapsize = len(list) - 1
         for i in range(len(list) // 2, -1, -1):
@@ -184,28 +188,64 @@ class BinHeap:
     def delel(self, elem):
         lenght = self.heapsize
         for i in range(lenght):
-            if(self.heaplist[i]==elem):
+            if (self.heaplist[i] == elem):
                 del self.heaplist[i]
 
     def heap_sort(self, list):
         self.heaplist = list
         self.heapsize = len(list) - 1
 
-        # Создаём Max Heap из списка
-        # Второй аргумент означает остановку алгоритма перед элементом -1, т.е.
-        # перед первым элементом списка
-        # 3-й аргумент означает повторный проход по списку в обратном направлении,
-        # уменьшая счётчик i на 1
-
         for i in range(len(list) // 2, -1, -1):
             self.heapify(i)
-        # Перемещаем корень Max Heap в конец списка
+
         for i in range(len(list) // 2, -1, -1):
             self.heaplist[i], self.heaplist[0] = self.heaplist[0], self.heaplist[i]
             self.heapify(i)
 
     def __str__(self):
         print(self.heaplist)
+
+class Sort_struct:
+    def __init__(self):
+        self.struct = []
+        self.structsize = 0
+
+    def heapify(self, nums, heap_size, root_index):
+        # Индекс наибольшего элемента считаем корневым индексом
+        largest = root_index
+        left_child = (2 * root_index) + 1
+        right_child = (2 * root_index) + 2
+
+        # Если левый потомок корня — допустимый индекс, а элемент больше,
+        # чем текущий наибольший, обновляем наибольший элемент
+        if left_child < heap_size and nums[left_child] > nums[largest]:
+            largest = left_child
+
+        # То же самое для правого потомка корня
+        if right_child < heap_size and nums[right_child] > nums[largest]:
+            largest = right_child
+
+        # Если наибольший элемент больше не корневой, они меняются местами
+        if largest != root_index:
+            nums[root_index], nums[largest] = nums[largest], nums[root_index]
+            # Heapify the new root element to ensure it's the largest
+            self.heapify(nums, heap_size, largest)
+
+    def heap_sort(self, nums):
+        n = len(nums)
+
+        # Создаём Max Heap из списка
+        # Второй аргумент означает остановку алгоритма перед элементом -1, т.е.
+        # перед первым элементом списка
+        # 3-й аргумент означает повторный проход по списку в обратном направлении,
+        # уменьшая счётчик i на 1
+        for i in range(n, -1, -1):
+            self.heapify(nums, n, i)
+
+        # Перемещаем корень Max Heap в конец списка
+        for i in range(n - 1, 0, -1):
+            nums[i], nums[0] = nums[0], nums[i]
+            self.heapify(nums, i, 0)
 
 #
 # heap = BinHeap()
@@ -246,3 +286,7 @@ class BinHeap:
 # L.push_start(2)
 #
 # L.print_desk(L.head)
+# el = HeapSort()
+# random_list_of_nums = [35, 12, 43, 8, 51]
+# el.heap_sort(random_list_of_nums)
+# print(random_list_of_nums)
