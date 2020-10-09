@@ -290,3 +290,19 @@ class Sort_struct:
 # random_list_of_nums = [35, 12, 43, 8, 51]
 # el.heap_sort(random_list_of_nums)
 # print(random_list_of_nums)
+
+
+try:
+   f = open("..1.txt.txt")
+except IOError:
+   print ("No file")
+
+# f = open('1.txt', 'r')
+# list = []
+# i = 0
+# for element in f:
+#     i += 1
+#     list[i] = element
+
+
+# print(list)
