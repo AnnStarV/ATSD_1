@@ -1,0 +1,20 @@
+{
+ "articles" :   [
+   {
+     "number" :   1 ,
+     "name" :   "First article",
+     "text" :   "This is first arcicle",
+     "tag" :   "#interesting#first#article",
+     "date" :   "2020-08-14",
+     "views": 56
+   } ,
+   {
+     "number" :   2 ,
+     "name" :   "Second article",
+     "text" :   "This is second arcicle",
+     "tag" :   "#interesting#second#article",
+     "date" :   "2020-09-14",
+     "views": 78
+   }
+ ]
+}

@@ -1,5 +1,6 @@
 import eel
 import datetime
+import json
 import copy
 import random
 
@@ -218,22 +219,22 @@ class Sort_struct:
 
         # Если левый потомок корня — допустимый индекс, а элемент больше,
         # чем текущий наибольший, обновляем наибольший элемент
-        if left_child < heap_size and nums[left_child] > nums[largest]:
+        if left_child < heap_size and nums["views"][left_child] > nums["views"][largest]:
             largest = left_child
 
         # То же самое для правого потомка корня
-        if right_child < heap_size and nums[right_child] > nums[largest]:
+        if right_child < heap_size and nums["views"][right_child] > nums["views"][largest]:
             largest = right_child
 
         # Если наибольший элемент больше не корневой, они меняются местами
         if largest != root_index:
-            nums[root_index], nums[largest] = nums[largest], nums[root_index]
+            nums["views"][root_index], nums["views"][largest] = nums["views"][largest], nums["views"][root_index]
             # Heapify the new root element to ensure it's the largest
             self.heapify(nums, heap_size, largest)
 
     def heap_sort(self, nums):
         n = len(nums)
-
+        print(nums)
         # Создаём Max Heap из списка
         # Второй аргумент означает остановку алгоритма перед элементом -1, т.е.
         # перед первым элементом списка
@@ -292,17 +293,12 @@ class Sort_struct:
 # print(random_list_of_nums)
 
 
-try:
-   f = open("..1.txt.txt")
-except IOError:
-   print ("No file")
+with open("data.json", "r") as read_file:
+        data = json.load(read_file)
 
-# f = open('1.txt', 'r')
-# list = []
-# i = 0
-# for element in f:
-#     i += 1
-#     list[i] = element
+list_data = data["articles"]
+# print(list_data[1]["tag"])
 
-
-# print(list)
+el = Sort_struct()
+el.heap_sort(list_data)
+print(list_data)
