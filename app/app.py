@@ -4,6 +4,7 @@ import json
 import copy
 import random
 
+
 class Blog(object):
     def __init__(self, numb=1, title=None, text=None, tag=None, dat=datetime.date(2012, 12, 14), amount=0):
         # numb = input('Numb: ')
@@ -68,7 +69,7 @@ class LinkedList:
         print("Data isn`t exist! ")
 
     def delete(self, del_el):
-        del_el_list = Node(del_el)
+        del_el_list = Node(int(del_el))
 
         while self.head.prev is not None:
             self.head = self.head.prev
@@ -83,36 +84,38 @@ class LinkedList:
                     self.head = del_el_list
                     self.head = self.head.next
                     self.head.prev = del_el_list.prev
-                    return
+                    return L.print_asc(L.head)
                 elif self.head.prev is None:
                     del_el_list.next = self.head.next
 
                     self.head = self.head.next
                     self.head.prev = None
 
-                    return
+                    return L.print_asc(L.head)
                 elif self.head.next is None:
                     del_el_list.prev = self.head.prev
 
                     self.head = self.head.prev
                     self.head.next = None
 
-                    return
+                    return L.print_asc(L.head)
             self.head = self.head.next
-        print("Data isn`t exist! ")
+        k = "Data isn`t exist! "
+        return k
 
     def find(self, find_el):
-
+        k = 0;
         while self.head.prev is not None:
             self.head = self.head.prev
 
-        while self.head.next is not None:
-            if self.head.data == find_el:
-                print('Element exist!')
-                return
+        while self.head is not None:
+            if self.head.data == int(find_el):
+                print_find = ('Element exist in pos: ' + str(k + 1))
+                return print_find
             self.head = self.head.next
-
-        print('Element doesn`t exist!')
+            k += 1
+        print_find = 'Element doesn`t exist!'
+        return print_find
 
     def print_asc(self, double_list):
         list = []
@@ -123,7 +126,6 @@ class LinkedList:
                 list.append(double_list.data)
                 double_list = double_list.next
             return list
-
 
     def print_desk(self, double_list):
         list = []
@@ -205,7 +207,7 @@ class BinHeap:
             self.heapify(i)
 
     def __str__(self):
-        print(self.heaplist)
+        return (self.heaplist)
 
 
 class Sort_struct:
@@ -313,23 +315,79 @@ list_data = data["articles"]
 # el.heapSort(list_data)
 # el.sort_print(list_data)
 
+
 eel.init("web")
 L = LinkedList()
 L.push_start(1)
 L.push_start(2)
 L.push_start(3)
 
+heap = BinHeap()
+random_list_of_nums = [35, 12, 43, 8, 2]
+heap.heap_sort(random_list_of_nums)
+
 
 @eel.expose
 def list_print():
-    return L.print_desk(L.head)
+    return L.print_asc(L.head)
+
+
 @eel.expose
 def add_el_start_list(el_start):
-    L.push_start(el_start)
+    L.push_start(int(el_start))
     return list_print()
+
+
 @eel.expose
-def push_in(el_end):
-    L.push_start(el_start)
+def add_el_after_list(addelem_after, el_after):
+    L.push_in(int(addelem_after), int(el_after))
     return list_print()
+
+
+@eel.expose
+def el_find_list(elem_find):
+    return L.find(elem_find)
+
+
+@eel.expose
+def el_del_list(elem_del):
+    return L.delete(int(elem_del))
+
+
+@eel.expose
+def el_print_start():
+    return list_print()
+
+
+@eel.expose
+def el_print_end():
+    return L.print_desk(L.head)
+
+
+@eel.expose
+def heap_print():
+    return heap.__str__()
+
+
+@eel.expose
+def input_array_heap(a, b, c, d):
+    heap_2 = BinHeap()
+    arr = []
+    arr.append(int(a))
+    arr.append(int(b))
+    arr.append(int(c))
+    arr.append(int(d))
+
+    return arr
+@eel.expose
+def sort_array_heap(a, b, c, d):
+    arr = []
+    arr.append(int(a))
+    arr.append(int(b))
+    arr.append(int(c))
+    arr.append(int(d))
+    heap_3 = BinHeap()
+    heap_3.heap_sort(arr)
+    return heap_3.__str__()
 
 eel.start("index.html", size=(1000, 900))

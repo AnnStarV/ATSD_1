@@ -106,7 +106,28 @@
             font-family:'Bebas Neue';
             padding-bottom:10px;
         }
-
+        #add_el_after{
+            width: 80px;
+        }
+        #el_after{
+            margin-left:16px;
+            width: 80px;
+        }
+        #input_array_first{
+            width: 30px;
+        }
+        #input_array_second{
+            margin-left:16px;
+            width: 30px;
+        }
+        #input_array_third{
+            margin-left:16px;
+            width: 30px;
+        }
+        #input_array_fourth{
+            margin-left:16px;
+            width: 30px;
+        }
   </style>
 </head>
 <body>
@@ -125,20 +146,27 @@
                     <h3>Двусвязный список</h3>
                     <div class="function">
                         <div><button onclick="add_el_start()" >Добавить элемент в начало:</button><input id="add_el_start"></div>
-                        <div><button onclick="add_el_after()" >Добавить элемент после заданного:</button><input id="add_el_after" ></div>
+                        <div><button onclick="add_el_after()" >Добавить элемент после заданного:</button><input id="add_el_after" ><input id="el_after" ></div>
                         <div><button onclick="find_el()">Поиск элемента:</button><input id="find_el"></div>
                         <div><button onclick="del_el()">Удаление элемента:</button><input id="del_el"></div>
                         <button onclick="start()">Вывод элементов с начала:</button>
                         <button onclick="end()">Вывод элементов с конца:</button>
                     </div>
-                    <div class="app__result"><p>Результат: </p><p id="result"></p></div>
                     <h4>Текущий список:</h4>
                     <textarea readonly style="resize: none;" cols="70" rows="10" id="textarea"></textarea>
                 </div>
 
                 <div id="second" class="app__tabcontent">
                   <h3>Куча</h3>
-                  <p>Paris is the capital of France.</p>
+                  <div class="function">
+                        <div><button onclick="add_el_heap()" >Добавить элемент:</button><input id="add_el_heap"></div>
+                        <div><button onclick="input_array()" >Создать массив элементов:</button><input id="input_array_first"><input id="input_array_second"><input id="input_array_third"><input id="input_array_fourth"></div>
+                        <div><button onclick="sort_heap()">Сортировка кучей</button></div>
+                        <div><button onclick="del_el_heap()">Удаление элемента:</button><input id="del_el_heap"></div>
+                        <button onclick="print_heap()">Вывод элементов:</button>
+                    </div>
+                <h4>Текущий список:</h4>
+                <textarea readonly style="resize: none;" cols="70" rows="10" id="textarea_heap"></textarea>
                 </div>
 
                 <div id="third" class="app__tabcontent">
@@ -176,30 +204,103 @@ function openTab(evt, cityName) {
        clearInterval(interval);
     });
 
+
     eel.list_print()(list_print)
     function list_print(result){
-    document.getElementById("textarea").value=result
-}
-}
+    document.getElementById("textarea").value=result;
+    }
 
-
+    eel.heap_print()(heap_print)
+    function heap_print(result){
+    document.getElementById("textarea_heap").value=result;
+    }
+}
 
 function add_el_start(){
     var el_start = document.getElementById("add_el_start").value;
+    el_start.value = "";
     eel.add_el_start_list(el_start)(return_add_el_start);
 }
 
 function return_add_el_start(result){
-    document.getElementById("textarea").value=result
+    document.getElementById("textarea").value=result;
 }
 
 function add_el_after(){
-    var el_start = document.getElementById("add_el_after").value;
-    eel.add_el_after_list(el_after)(return_add_el_after);
+    var el_after = document.getElementById("el_after").value;
+    el_after.value = "";
+    var addel_after = document.getElementById("add_el_after").value;
+    eel.add_el_after_list(addel_after, el_after)(return_add_el_after);
 }
 
 function return_add_el_after(result){
-    document.getElementById("textarea").value=result
+    document.getElementById("textarea").value=result;
+}
+
+
+function find_el(){
+    var el_find = document.getElementById("find_el").value;
+    el_find.value = "";
+    eel.el_find_list(el_find)(return_el_find);
+}
+
+function return_el_find(result){
+    document.getElementById("textarea").value = result;
+}
+
+function del_el(){
+    var el_del = document.getElementById("del_el").value;
+    el_del.value="";
+    eel.el_del_list(el_del)(return_el_del);
+}
+function return_el_del(result){
+    document.getElementById("textarea").value = result;
+}
+
+function start(){
+    eel.el_print_start()(return_el_start);
+}
+function return_el_start(result){
+    document.getElementById("textarea").value = result;
+}
+
+function end(){
+    eel.el_print_end()(return_el_end);
+}
+function return_el_end(result){
+    document.getElementById("textarea").value = result;
+}
+
+function input_array(){
+    var input_array_first = document.getElementById("input_array_first").value;
+    var input_array_second = document.getElementById("input_array_second").value;
+    var input_array_third = document.getElementById("input_array_third").value;
+    var input_array_fourth = document.getElementById("input_array_fourth").value;
+    input_array_first.value="";
+    input_array_second.value="";
+    input_array_third.value="";
+    input_array_fourth.value="";
+    eel.input_array_heap(input_array_first, input_array_second, input_array_third, input_array_fourth)(input_array_heap);
+}
+
+function input_array_heap(result){
+    document.getElementById("textarea_heap").value = result;
+}
+
+function sort_heap(){
+    var input_array_first = document.getElementById("input_array_first").value;
+    var input_array_second = document.getElementById("input_array_second").value;
+    var input_array_third = document.getElementById("input_array_third").value;
+    var input_array_fourth = document.getElementById("input_array_fourth").value;
+    input_array_first.value="";
+    input_array_second.value="";
+    input_array_third.value="";
+    input_array_fourth.value="";
+    eel.sort_array_heap(input_array_first, input_array_second, input_array_third, input_array_fourth)(sort_array_heap);
+}
+
+function sort_array_heap(result){
+    document.getElementById("textarea_heap").value = result;
 }
 
 </script>
