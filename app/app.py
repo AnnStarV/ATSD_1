@@ -4,10 +4,6 @@ import json
 import copy
 import random
 
-
-# eel.init("web")
-# eel.start("index.html", size=(700, 300))
-
 class Blog(object):
     def __init__(self, numb=1, title=None, text=None, tag=None, dat=datetime.date(2012, 12, 14), amount=0):
         # numb = input('Numb: ')
@@ -119,20 +115,25 @@ class LinkedList:
         print('Element doesn`t exist!')
 
     def print_asc(self, double_list):
+        list = []
         if double_list:
             while double_list.prev is not None:
                 double_list = double_list.prev
             while double_list is not None:
-                print(double_list.data)
+                list.append(double_list.data)
                 double_list = double_list.next
+            return list
+
 
     def print_desk(self, double_list):
+        list = []
         if double_list:
             while double_list.next is not None:
                 double_list = double_list.next
             while double_list is not None:
-                print(double_list.data)
+                list.append(double_list.data)
                 double_list = double_list.prev
+            return list
 
     def clear(self):
         self.__init__()
@@ -222,16 +223,13 @@ class Sort_struct:
             largest = l
         elif l < n and arr[i]["views"] == arr[l]["views"] and arr[i]["date"] < arr[l]["date"]:
             largest = l
-            self.print = True
-            print(self.print)
+
         # Проверяем существует ли правый дочерний элемент больший, чем корень
 
         if r < n and arr[largest]["views"] < arr[r]["views"]:
             largest = r
         elif r < n and arr[largest]["views"] == arr[r]["views"] and arr[largest]["date"] < arr[r]["date"]:
             largest = r
-            self.print = True
-
 
         # Заменяем корень, если нужно
         if largest != i:
@@ -243,7 +241,6 @@ class Sort_struct:
     # Основная функция для сортировки массива заданного размера
     def heapSort(self, arr):
         n = len(arr)
-
         # Построение max-heap.
         for i in range(n, -1, -1):
             self.heapify(arr, n, i)
@@ -254,10 +251,7 @@ class Sort_struct:
             self.heapify(arr, i, 0)
 
     def sort_print(self, arr):
-        if self.print:
-            print(arr)
-        else:
-            print(arr[::-1])
+        print(arr[::-1])
 
 
 #
@@ -311,6 +305,31 @@ with open("data.json", "r") as read_file:
 list_data = data["articles"]
 # print(list_data[1]["tag"])
 #
-el = Sort_struct()
-el.heapSort(list_data)
-el.sort_print(list_data)
+# el = Sort_struct()
+# el.heapSort(list_data)
+# # el.sort_print(list_data)
+# list_data.append({'views': 70})
+#
+# el.heapSort(list_data)
+# el.sort_print(list_data)
+
+eel.init("web")
+L = LinkedList()
+L.push_start(1)
+L.push_start(2)
+L.push_start(3)
+
+
+@eel.expose
+def list_print():
+    return L.print_desk(L.head)
+@eel.expose
+def add_el_start_list(el_start):
+    L.push_start(el_start)
+    return list_print()
+@eel.expose
+def push_in(el_end):
+    L.push_start(el_start)
+    return list_print()
+
+eel.start("index.html", size=(1000, 900))

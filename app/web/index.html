@@ -4,86 +4,162 @@
     <meta charset="UTF-8">
     <title>LR1</title>
     <link rel="icon" type="image/png" href="/ico.png">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="/eel.js"></script>
     <style>
-            *{
-            padding:0;
-            margin: 0;
-            }
-            body {
-                font-family: sans-serif;
-            }
-         .hidden-panel-content {
-            display: flex;
-            flex-direction: column;
-            background-color: #00a4ff;
-            width: 20%;
+        *{
+        padding:0;
+        margin: 0;
+        }
+        body {
+            font-family: sans-serif;
+            background-color:#e8e6ff
+        }
+        h3{
+        padding-bottom: 30px;
+        }
+        .app__logo{
+            display:flex;
+            justify-content: center;
+            align-items:center;
+            background-color:#fff;
+            padding: 10px;
+            font-family:'Bebas Neue';
+            font-size: 30px;
+        }
+
+        .app__logo p{
+            padding-left: 20px;
+            color:#424242;
+        }
+         .app__wrapper{
+         width:100%;
+         display: flex;
+         flex-direction: row;
+         height:100vh;
+        }
+        .app__hidden-panel{
+            width:28%;
+            background-color: #3657ff;
             height:100vh;
         }
 
-        .hidden-panel-content button {
+        .app__hidden-panel button {
             background-color: inherit;
-            float: left;
             display: flex;
             flex-direction: row;
             border: none;
             outline: none;
             cursor: pointer;
-            padding: 14px 16px;
+            padding: 20px 16px 0px 20px;
             transition: 0.3s;
+            text-transform:uppercase;
         }
 
-        .hidden-panel-content button.active {
+        .app__hidden-panel button.active {
             background-color: #ccc;
         }
 
-        .tabcontent {
-            display: none;
-            padding: 6px 12px;
-            border: 1px solid #ccc;
-            border-top: none;
+        #app__hidden-content{
+            display:none;
+            padding: 40px;
         }
+        .app__links{
+            display: flex;
+            flex-direction: column;
+            width:100%;
+
+        }
+        .app__tablinks{
+            font-size: 15px;
+            color:#fff;
+            height:50px;
+        }
+        .function{
+            display:flex;
+            flex-direction: column;
+        }
+        .function button{
+            outline:none;
+            border: 2px solid #5773ff;
+            background-color:#fff;
+            padding:15px;
+            margin-bottom:15px;
+            color: #5773ff;
+            transition: all .3s;
+            cursor:pointer;
+            min-width:300px;
+        }
+        .function button:hover{
+            background-color:#5773ff;
+            color: #fff;
+        }
+        .function input{
+            outline:none;
+            width:180px;
+            margin-left: 35px;
+        }
+        h4{
+            padding-bottom:20px;
+        }
+        .app__result{
+            font-family:'Bebas Neue';
+            padding-bottom:10px;
+        }
+
   </style>
 </head>
 <body>
-<input type="checkbox" id="nav-toggle" hidden>
-    <section>
-        <div class="hidden-panel">
-            <span class="hidden-panel-close" data-js="hidden-panel-close">Close</span>
-            <div class="hidden-panel-content">
-                <button class="tablinks" onclick="openTab(event, 'London')">London</button>
-                <button class="tablinks" onclick="openTab(event, 'Paris')">Paris</button>
-                <button class="tablinks" onclick="openTab(event, 'Tokyo')">Tokyo</button>
+    <section class="app">
+        <div class="app__wrapper">
+            <div class="app__hidden-panel">
+                <div class="app__logo"><img src="logo.png" width="55px"><p>ATSD #1</p></div>
+                <div class="app__links">
+                    <button class="app__tablinks" onclick="openTab(event, 'first')">Двусвязный список</button>
+                    <button class="app__tablinks" onclick="openTab(event, 'second')">Куча</button>
+                    <button class="app__tablinks" onclick="openTab(event, 'third')">Индивидуальное задание</button>
+                </div>
+            </div>
+            <div id="app__hidden-content">
+                <div id="first" class="app__tabcontent">
+                    <h3>Двусвязный список</h3>
+                    <div class="function">
+                        <div><button onclick="add_el_start()" >Добавить элемент в начало:</button><input id="add_el_start"></div>
+                        <div><button onclick="add_el_after()" >Добавить элемент после заданного:</button><input id="add_el_after" ></div>
+                        <div><button onclick="find_el()">Поиск элемента:</button><input id="find_el"></div>
+                        <div><button onclick="del_el()">Удаление элемента:</button><input id="del_el"></div>
+                        <button onclick="start()">Вывод элементов с начала:</button>
+                        <button onclick="end()">Вывод элементов с конца:</button>
+                    </div>
+                    <div class="app__result"><p>Результат: </p><p id="result"></p></div>
+                    <h4>Текущий список:</h4>
+                    <textarea readonly style="resize: none;" cols="70" rows="10" id="textarea"></textarea>
+                </div>
+
+                <div id="second" class="app__tabcontent">
+                  <h3>Куча</h3>
+                  <p>Paris is the capital of France.</p>
+                </div>
+
+                <div id="third" class="app__tabcontent">
+                  <h3>Индивидуальное задание</h3>
+                  <p>Tokyo is the capital of Japan.</p>
+                </div>
             </div>
         </div>
-        <div class="menu-toggle" data-js="menu-toggle">
-            <img src="burger.png" class="menu-toggle-grippy"/>
-        </div>
     </section>
-        <div id="London" class="tabcontent">
-          <h3>London</h3>
-          <p>London is the capital city of England.</p>
-        </div>
-
-        <div id="Paris" class="tabcontent">
-          <h3>Paris</h3>
-          <p>Paris is the capital of France.</p>
-        </div>
-
-        <div id="Tokyo" class="tabcontent">
-          <h3>Tokyo</h3>
-          <p>Tokyo is the capital of Japan.</p>
-        </div>
-
 <script>
 function openTab(evt, cityName) {
-    var i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
+    var i, app__tabcontent, app__tablinks, content;
+    content = document.getElementById("app__hidden-content");
+    content.style.display = "block";
+    app__tabcontent = document.getElementsByClassName("app__tabcontent");
+    for (i = 0; i < app__tabcontent.length; i++) {
+        app__tabcontent[i].style.display = "none";
     }
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    app__tablinks = document.getElementsByClassName("app__tablinks");
+    for (i = 0; i < app__tablinks.length; i++) {
+        app__tablinks[i].className = app__tablinks[i].className.replace(" active", "");
     }
     document.getElementById(cityName).style.display = "block";
     evt.currentTarget.className += " active";
@@ -100,18 +176,32 @@ function openTab(evt, cityName) {
        clearInterval(interval);
     });
 
-    menuToggle.addEventListener('click', function () {
-      document.body.classList.toggle('panel-open');
-      menuToggle.classList.toggle('open');
-    });
-
-    var closePanel = document.querySelector('[data-js="hidden-panel-close"]');
-
-    closePanel.addEventListener('click', function () {
-      document.body.classList.remove('panel-open');
-      menuToggle.classList.remove('open');
-    });
+    eel.list_print()(list_print)
+    function list_print(result){
+    document.getElementById("textarea").value=result
 }
+}
+
+
+
+function add_el_start(){
+    var el_start = document.getElementById("add_el_start").value;
+    eel.add_el_start_list(el_start)(return_add_el_start);
+}
+
+function return_add_el_start(result){
+    document.getElementById("textarea").value=result
+}
+
+function add_el_after(){
+    var el_start = document.getElementById("add_el_after").value;
+    eel.add_el_after_list(el_after)(return_add_el_after);
+}
+
+function return_add_el_after(result){
+    document.getElementById("textarea").value=result
+}
+
 </script>
 
 </body>
