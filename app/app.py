@@ -206,47 +206,59 @@ class BinHeap:
     def __str__(self):
         print(self.heaplist)
 
+
 class Sort_struct:
     def __init__(self):
-        self.struct = []
-        self.structsize = 0
+        self.print = False
 
-    def heapify(self, nums, heap_size, root_index):
-        # Индекс наибольшего элемента считаем корневым индексом
-        largest = root_index
-        left_child = (2 * root_index) + 1
-        right_child = (2 * root_index) + 2
+    def heapify(self, arr, n, i):
+        largest = i  # Initialize largest as root
+        l = 2 * i + 1  # left = 2*i + 1
+        r = 2 * i + 2  # right = 2*i + 2
 
-        # Если левый потомок корня — допустимый индекс, а элемент больше,
-        # чем текущий наибольший, обновляем наибольший элемент
-        if left_child < heap_size and nums["views"][left_child] > nums["views"][largest]:
-            largest = left_child
+        # Проверяем существует ли левый дочерний элемент больший, чем корень
 
-        # То же самое для правого потомка корня
-        if right_child < heap_size and nums["views"][right_child] > nums["views"][largest]:
-            largest = right_child
+        if l < n and arr[i]["views"] < arr[l]["views"]:
+            largest = l
+        elif l < n and arr[i]["views"] == arr[l]["views"] and arr[i]["date"] < arr[l]["date"]:
+            largest = l
+            self.print = True
+            print(self.print)
+        # Проверяем существует ли правый дочерний элемент больший, чем корень
 
-        # Если наибольший элемент больше не корневой, они меняются местами
-        if largest != root_index:
-            nums["views"][root_index], nums["views"][largest] = nums["views"][largest], nums["views"][root_index]
-            # Heapify the new root element to ensure it's the largest
-            self.heapify(nums, heap_size, largest)
+        if r < n and arr[largest]["views"] < arr[r]["views"]:
+            largest = r
+        elif r < n and arr[largest]["views"] == arr[r]["views"] and arr[largest]["date"] < arr[r]["date"]:
+            largest = r
+            self.print = True
 
-    def heap_sort(self, nums):
-        n = len(nums)
-        print(nums)
-        # Создаём Max Heap из списка
-        # Второй аргумент означает остановку алгоритма перед элементом -1, т.е.
-        # перед первым элементом списка
-        # 3-й аргумент означает повторный проход по списку в обратном направлении,
-        # уменьшая счётчик i на 1
+
+        # Заменяем корень, если нужно
+        if largest != i:
+            arr[i], arr[largest] = arr[largest], arr[i]  # свап
+
+            # Применяем heapify к корню.
+            self.heapify(arr, n, largest)
+
+    # Основная функция для сортировки массива заданного размера
+    def heapSort(self, arr):
+        n = len(arr)
+
+        # Построение max-heap.
         for i in range(n, -1, -1):
-            self.heapify(nums, n, i)
+            self.heapify(arr, n, i)
 
-        # Перемещаем корень Max Heap в конец списка
+        # Один за другим извлекаем элементы
         for i in range(n - 1, 0, -1):
-            nums[i], nums[0] = nums[0], nums[i]
-            self.heapify(nums, i, 0)
+            arr[i], arr[0] = arr[0], arr[i]  # свап
+            self.heapify(arr, i, 0)
+
+    def sort_print(self, arr):
+        if self.print:
+            print(arr)
+        else:
+            print(arr[::-1])
+
 
 #
 # heap = BinHeap()
@@ -294,11 +306,11 @@ class Sort_struct:
 
 
 with open("data.json", "r") as read_file:
-        data = json.load(read_file)
+    data = json.load(read_file)
 
 list_data = data["articles"]
-print(list_data[1]["tag"])
+# print(list_data[1]["tag"])
 #
-# el = Sort_struct()
-# el.heap_sort(list_data)
-# print(list_data)
+el = Sort_struct()
+el.heapSort(list_data)
+el.sort_print(list_data)
