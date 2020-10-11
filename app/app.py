@@ -297,8 +297,8 @@ with open("data.json", "r") as read_file:
         data = json.load(read_file)
 
 list_data = data["articles"]
-# print(list_data[1]["tag"])
-
-el = Sort_struct()
-el.heap_sort(list_data)
-print(list_data)
+print(list_data[1]["tag"])
+#
+# el = Sort_struct()
+# el.heap_sort(list_data)
+# print(list_data)
