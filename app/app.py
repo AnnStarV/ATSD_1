@@ -194,6 +194,8 @@ class BinHeap:
         for i in range(lenght):
             if (self.heaplist[i] == elem):
                 del self.heaplist[i]
+                return
+        return
 
     def heap_sort(self, list):
         self.heaplist = list
@@ -326,7 +328,6 @@ heap = BinHeap()
 random_list_of_nums = [35, 12, 43, 8, 2]
 heap.heap_sort(random_list_of_nums)
 
-
 @eel.expose
 def list_print():
     return L.print_asc(L.head)
@@ -371,23 +372,28 @@ def heap_print():
 
 @eel.expose
 def input_array_heap(a, b, c, d):
-    heap_2 = BinHeap()
-    arr = []
-    arr.append(int(a))
-    arr.append(int(b))
-    arr.append(int(c))
-    arr.append(int(d))
+    arr = [int(a), int(b), int(c), int(d)]
+    random_list_of_nums[:] = arr
+    return random_list_of_nums
 
-    return arr
 @eel.expose
 def sort_array_heap(a, b, c, d):
-    arr = []
-    arr.append(int(a))
-    arr.append(int(b))
-    arr.append(int(c))
-    arr.append(int(d))
-    heap_3 = BinHeap()
-    heap_3.heap_sort(arr)
-    return heap_3.__str__()
+    arr = input_array_heap(a, b, c, d)
+    heap.heap_sort(arr)
+    return heap.__str__()
+
+
+@eel.expose
+def el_del_heap(el_del):
+    heap.delel(int(el_del))
+    return heap.__str__()
+
+
+@eel.expose
+def el_add_heap(el_add):
+    heap.insert(int(el_add))
+    heap.heap_sort(random_list_of_nums)
+    return heap.__str__()
+
 
 eel.start("index.html", size=(1000, 900))

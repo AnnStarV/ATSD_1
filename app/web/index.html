@@ -163,7 +163,6 @@
                         <div><button onclick="input_array()" >Создать массив элементов:</button><input id="input_array_first"><input id="input_array_second"><input id="input_array_third"><input id="input_array_fourth"></div>
                         <div><button onclick="sort_heap()">Сортировка кучей</button></div>
                         <div><button onclick="del_el_heap()">Удаление элемента:</button><input id="del_el_heap"></div>
-                        <button onclick="print_heap()">Вывод элементов:</button>
                     </div>
                 <h4>Текущий список:</h4>
                 <textarea readonly style="resize: none;" cols="70" rows="10" id="textarea_heap"></textarea>
@@ -237,7 +236,6 @@ function return_add_el_after(result){
     document.getElementById("textarea").value=result;
 }
 
-
 function find_el(){
     var el_find = document.getElementById("find_el").value;
     el_find.value = "";
@@ -300,6 +298,27 @@ function sort_heap(){
 }
 
 function sort_array_heap(result){
+    document.getElementById("textarea_heap").value = result;
+}
+
+function del_el_heap(){
+
+    var el_del = document.getElementById("del_el_heap").value;
+    el_del.value="";
+
+    eel.el_del_heap(el_del)(return_del_heap);
+}
+function return_del_heap(result){
+    document.getElementById("textarea_heap").value = result;
+}
+
+function add_el_heap(){
+    var el_add = document.getElementById("add_el_heap").value;
+    el_add.value="";
+    eel.el_add_heap(el_add)(return_addel_heap);
+}
+
+function return_addel_heap(result){
     document.getElementById("textarea_heap").value = result;
 }
 
