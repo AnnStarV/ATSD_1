@@ -255,70 +255,28 @@ class Sort_struct:
             self.heapify(arr, i, 0)
 
     def sort_print(self, arr):
-        print(arr[::-1])
+        list = []
+        for element in arr:
+            list.append(str('\n\n'+element['text'])+'\n'+str(element['views'])+'\n'+str(element['date'])+'\n'+str(element['name']))
+        return list[::-1]
 
-
-#
-# heap = BinHeap()
-# heap.buildHeap([3, 9, 2])
-# heap.__str__()
-# heap.insert(7)
-# heap.buildHeap(heap.heaplist)
-# heap.__str__()
-# heap.delel(7)
-# heap.buildHeap(heap.heaplist)
-# heap.__str__()
-#
-#
-# heap_2 = BinHeap()
-# random_list_of_nums = [35, 12, 43, 8, 2]
-# heap_2.heap_sort(random_list_of_nums)
-# heap_2.__str__()
-# el = Blog()
-# L = LinkedList()
-# L.insert(1)
-#
-# print(L.__str__())
-
-# el = Blog(2, '222', '222', '222', '222', '222')
-
-
-# L = LinkedList()
-# L.push_start(1)
-# L.push_start(2)
-# L.push_start(3)
-#
-# L.__str__(L.head)
-#
-# print('\n\n')
-# L.clear()
-# L.push_start(0)
-# L.push_start(1)
-# L.push_start(2)
-#
-# L.print_desk(L.head)
-# el = HeapSort()
-# random_list_of_nums = [35, 12, 43, 8, 51]
-# el.heap_sort(random_list_of_nums)
-# print(random_list_of_nums)
-
+eel.init("web")
 
 with open("data.json", "r") as read_file:
     data = json.load(read_file)
 
 list_data = data["articles"]
-# print(list_data[1]["tag"])
-#
-# el = Sort_struct()
-# el.heapSort(list_data)
-# # el.sort_print(list_data)
+
+el = Sort_struct()
+el.heapSort(list_data)
+
 # list_data.append({'views': 70})
 #
 # el.heapSort(list_data)
 # el.sort_print(list_data)
 
 
-eel.init("web")
+
 L = LinkedList()
 L.push_start(1)
 L.push_start(2)
@@ -332,68 +290,59 @@ heap.heap_sort(random_list_of_nums)
 def list_print():
     return L.print_asc(L.head)
 
-
 @eel.expose
 def add_el_start_list(el_start):
     L.push_start(int(el_start))
     return list_print()
 
-
 @eel.expose
 def add_el_after_list(addelem_after, el_after):
     L.push_in(int(addelem_after), int(el_after))
     return list_print()
-
-
 @eel.expose
 def el_find_list(elem_find):
     return L.find(elem_find)
-
-
 @eel.expose
 def el_del_list(elem_del):
     return L.delete(int(elem_del))
-
-
 @eel.expose
 def el_print_start():
     return list_print()
-
-
 @eel.expose
 def el_print_end():
     return L.print_desk(L.head)
-
-
 @eel.expose
 def heap_print():
     return heap.__str__()
-
-
 @eel.expose
 def input_array_heap(a, b, c, d):
     arr = [int(a), int(b), int(c), int(d)]
     random_list_of_nums[:] = arr
     return random_list_of_nums
-
 @eel.expose
 def sort_array_heap(a, b, c, d):
     arr = input_array_heap(a, b, c, d)
     heap.heap_sort(arr)
     return heap.__str__()
-
-
 @eel.expose
 def el_del_heap(el_del):
     heap.delel(int(el_del))
     return heap.__str__()
-
-
 @eel.expose
 def el_add_heap(el_add):
     heap.insert(int(el_add))
     heap.heap_sort(random_list_of_nums)
     return heap.__str__()
-
+@eel.expose
+def struct_print():
+    el.heapSort(list_data)
+    return  el.sort_print(list_data)
+@eel.expose
+def add_el_struct(add_el_number, add_el_name, add_el_text, add_el_tag, add_el_date, add_el_views):
+    arr = list_data
+    arr.append({'number': int(add_el_number), 'name': add_el_name, 'text': add_el_text, 'tag': add_el_tag,'date':add_el_date, 'views': int(add_el_views)})
+    list_data[:] = arr
+    el.heapSort(list_data)
+    return  el.sort_print(list_data)
 
 eel.start("index.html", size=(1000, 900))
