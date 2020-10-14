@@ -1,3 +1,5 @@
+from heapq import heapify
+
 import eel
 import datetime
 import json
@@ -141,53 +143,48 @@ class LinkedList:
         self.__init__()
 
 
-class BinHeap:
+class BinHeap(object):
     def __init__(self):
         self.heaplist = []
-        self.heapsize = 0
+        self.heapsize =0
+    def heapify(self, arr, n, i):
+        largest = i  # Initialize largest as root
+        l = 2 * i + 1  # left = 2*i + 1
+        r = 2 * i + 2  # right = 2*i + 2
 
-    def left(self, i):
-        return i * 2 + 1
+        # Проверяем существует ли левый дочерний элемент больший, чем корень
 
-    def right(self, i):
-        return i * 2 + 2
-
-    def heapify(self, i):  # упорядочение кучи
-        l = self.left(i)
-        r = self.right(i)
-        # Знаки
-        if l <= self.heapsize and self.heaplist[l] > self.heaplist[i]:
+        if l < n and arr[i] < arr[l]:
             largest = l
-        else:
-            largest = i
-        # Знаки и последний индекс
-        if r <= self.heapsize and self.heaplist[r] > self.heaplist[largest]:
-            largest = r
-        if largest != i:
-            # Обмен значениями явный
-            tmp = self.heaplist[i]
-            self.heaplist[i] = self.heaplist[largest]
-            self.heaplist[largest] = tmp
-            self.heapify(largest)
 
-    def buildHeap(self, list):  # построение кучи
-        self.heaplist = list
-        self.heapsize = len(list) - 1
-        for i in range(len(list) // 2, -1, -1):
-            self.heapify(i)
+        # Проверяем существует ли правый дочерний элемент больший, чем корень
+
+        if r < n and arr[largest] < arr[r]:
+            largest = r
+
+        # Заменяем корень, если нужно
+        if largest != i:
+            arr[i], arr[largest] = arr[largest], arr[i]  # свап
+
+            # Применяем heapify к корню.
+            self.heapify(arr, n, largest)
+
+    def heapSort(self, arr):
+        self.heapsize  = len(arr)
+        self.heaplist = arr
+        # Построение max-heap.
+        for i in range(self.heapsize, -1, -1):
+            self.heapify(self.heaplist, self.heapsize, i)
+
+        # Один за другим извлекаем элементы
+        for i in range(self.heapsize - 1, 0, -1):
+            self.heaplist[i], self.heaplist[0] = self.heaplist[0], self.heaplist[i]  # свап
+            self.heapify(self.heaplist, i, 0)
 
     def insert(self, k):
         self.heaplist.append(k)
         self.heapsize = self.heapsize + 1
-        self.percUp(self.heapsize)
-
-    def percUp(self, i):
-        while i // 2 > 0:
-            if self.heaplist[i] < self.heaplist[i // 2]:
-                tmp = self.heaplist[i // 2]
-                self.heaplist[i // 2] = self.heaplist[i]
-                self.heaplist[i] = tmp
-            i = i // 2
+        self.heapSort(self.heaplist)
 
     def delel(self, elem):
         lenght = self.heapsize
@@ -197,19 +194,9 @@ class BinHeap:
                 return
         return
 
-    def heap_sort(self, list):
-        self.heaplist = list
-        self.heapsize = len(list) - 1
-
-        for i in range(len(list) // 2, -1, -1):
-            self.heapify(i)
-
-        for i in range(len(list) // 2, -1, -1):
-            self.heaplist[i], self.heaplist[0] = self.heaplist[0], self.heaplist[i]
-            self.heapify(i)
-
     def __str__(self):
         return (self.heaplist)
+
 
 
 class Sort_struct:
@@ -260,6 +247,8 @@ class Sort_struct:
             list.append(str('\n\n'+element['text'])+'\n'+str(element['views'])+'\n'+str(element['date'])+'\n'+str(element['name']))
         return list[::-1]
 
+
+
 eel.init("web")
 
 with open("data.json", "r") as read_file:
@@ -284,7 +273,7 @@ L.push_start(3)
 
 heap = BinHeap()
 random_list_of_nums = [35, 12, 43, 8, 2]
-heap.heap_sort(random_list_of_nums)
+heap.heapSort(random_list_of_nums)
 
 @eel.expose
 def list_print():
@@ -322,7 +311,7 @@ def input_array_heap(a, b, c, d):
 @eel.expose
 def sort_array_heap(a, b, c, d):
     arr = input_array_heap(a, b, c, d)
-    heap.heap_sort(arr)
+    heap.heapSort(arr)
     return heap.__str__()
 @eel.expose
 def el_del_heap(el_del):
@@ -331,7 +320,7 @@ def el_del_heap(el_del):
 @eel.expose
 def el_add_heap(el_add):
     heap.insert(int(el_add))
-    heap.heap_sort(random_list_of_nums)
+    heap.heapSort(random_list_of_nums)
     return heap.__str__()
 @eel.expose
 def struct_print():
