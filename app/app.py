@@ -1,5 +1,6 @@
 from heapq import heapify
-
+import time
+import random
 import eel
 import datetime
 import json
@@ -21,11 +22,11 @@ class Blog(object):
         self.dat = dat
         # amount = input('Amount: ')
         self.amount = amount
-
+# Инициализация полей класса "Блог" для работы с структурой
     def __str__(self):
         print('Number: ', self.numb, '\nTitle: ', self.title, '\nText: ', self.text, '\nTag: ', self.tag, '\nDate: ',
               self.dat, '\nAmount: ', self.amount)
-
+# Вывод полей класса "Блог" определенной структуры
 
 # ---------------------------------------------------------------------------------------------------#
 
@@ -34,24 +35,25 @@ class Node:
         self.data = data
         self.next = None
         self.prev = None
+# Инициализация данных(данные, указатель на следующий, указатель на предыдущий элемент) двусвязного спсика
 
     def __str__(self):
         return str(self.data)
-
+# Вывод элемента двусвязного списка
 
 # ---------------------------------------------------------------------------------------------------#
 
 class LinkedList:
     def __init__(self):
         self.head = None
-
+# Инициализация элемента текущей позиции двусвязного списка
     def push_start(self, new_el):
         new_list = Node(new_el)
         new_list.next = self.head  # след. эл.  = NULL, если уже что-то лежит, то пред.элемент = новому, а новый
         if self.head is not None:
             self.head.prev = new_list
         self.head = new_list
-
+# Добавление элемента в начало двусвязного списка
     def push_in(self, prev_el, new_el):
         new_list = Node(new_el)
 
@@ -69,7 +71,7 @@ class LinkedList:
                 return
             self.head = self.head.next
         print("Data isn`t exist! ")
-
+# Добавление элемента после заданного в двусвязный список(далее ДС)
     def delete(self, del_el):
         del_el_list = Node(int(del_el))
 
@@ -104,7 +106,7 @@ class LinkedList:
             self.head = self.head.next
         k = "Data isn`t exist! "
         return k
-
+# удаление элемента ДС
     def find(self, find_el):
         k = 0;
         while self.head.prev is not None:
@@ -118,7 +120,7 @@ class LinkedList:
             k += 1
         print_find = 'Element doesn`t exist!'
         return print_find
-
+# поиск элемента в ДС
     def print_asc(self, double_list):
         list = []
         if double_list:
@@ -128,7 +130,7 @@ class LinkedList:
                 list.append(double_list.data)
                 double_list = double_list.next
             return list
-
+# вывод элментов с начала ДС
     def print_desk(self, double_list):
         list = []
         if double_list:
@@ -138,15 +140,16 @@ class LinkedList:
                 list.append(double_list.data)
                 double_list = double_list.prev
             return list
-
+# вывод элментов с конца ДС
     def clear(self):
         self.__init__()
-
+# очистка ДС
 
 class BinHeap(object):
     def __init__(self):
         self.heaplist = []
         self.heapsize =0
+# Инициализация кучи
     def heapify(self, arr, n, i):
         largest = i  # Initialize largest as root
         l = 2 * i + 1  # left = 2*i + 1
@@ -168,7 +171,7 @@ class BinHeap(object):
 
             # Применяем heapify к корню.
             self.heapify(arr, n, largest)
-
+# Реализация метода сортировки кучей
     def heapSort(self, arr):
         self.heapsize  = len(arr)
         self.heaplist = arr
@@ -181,11 +184,20 @@ class BinHeap(object):
             self.heaplist[i], self.heaplist[0] = self.heaplist[0], self.heaplist[i]  # свап
             self.heapify(self.heaplist, i, 0)
 
+    def heapSort_bulble(self, arr):
+        self.heapsize = len(arr)
+        self.heaplist = arr
+        # Построение max-heap.
+        for i in range(self.heapsize - 1):
+            for j in range(self.heapsize - i - 1):
+                if self.heaplist[j] > self.heaplist[j + 1]:
+                    self.heaplist[j], self.heaplist[j + 1] = self.heaplist[j + 1], self.heaplist[j]
+# Сортировка пузырьком
     def insert(self, k):
         self.heaplist.append(k)
         self.heapsize = self.heapsize + 1
         self.heapSort(self.heaplist)
-
+# Добавление элемента в кучу
     def delel(self, elem):
         lenght = self.heapsize
         for i in range(lenght):
@@ -193,16 +205,13 @@ class BinHeap(object):
                 del self.heaplist[i]
                 return
         return
-
+# Удаление элемента из кучи
     def __str__(self):
         return (self.heaplist)
-
+# Вывод элементов кучи
 
 
 class Sort_struct:
-    def __init__(self):
-        self.print = False
-
     def heapify(self, arr, n, i):
         largest = i  # Initialize largest as root
         l = 2 * i + 1  # left = 2*i + 1
@@ -229,6 +238,7 @@ class Sort_struct:
             # Применяем heapify к корню.
             self.heapify(arr, n, largest)
 
+# Реализация метода сортировки кучей
     # Основная функция для сортировки массива заданного размера
     def heapSort(self, arr):
         n = len(arr)
@@ -241,20 +251,41 @@ class Sort_struct:
             arr[i], arr[0] = arr[0], arr[i]  # свап
             self.heapify(arr, i, 0)
 
+# Построение кучи
     def sort_print(self, arr):
         list = []
         for element in arr:
             list.append(str('\n\n'+element['text'])+'\n'+str(element['views'])+'\n'+str(element['date'])+'\n'+str(element['name']))
         return list[::-1]
+# вывод элементов структуры
 
 
+test = BinHeap()
 
+
+test_arr = []
+for i in range(1000):
+    test_arr.append(random.randrange(0, 50))
+
+
+start_time = time.time()
+test.heapSort(test_arr)
+print("--- %s seconds ---" % (time.time() - start_time))
+
+
+test_arr = []
+for i in range(1000):
+    test_arr.append(random.randrange(0, 50))
+start_time = time.time()
+test.heapSort_bulble(test_arr)
+print("--- %s seconds ---" % (time.time() - start_time))
 eel.init("web")
-
+# инициализация компонента для работы с визуальным окном
 with open("data.json", "r") as read_file:
     data = json.load(read_file)
 
 list_data = data["articles"]
+# считывание с json данных
 
 el = Sort_struct()
 el.heapSort(list_data)
@@ -271,10 +302,14 @@ L.push_start(1)
 L.push_start(2)
 L.push_start(3)
 
+
+
 heap = BinHeap()
 random_list_of_nums = [35, 12, 43, 8, 2]
-heap.heapSort(random_list_of_nums)
 
+heap.heapSort(random_list_of_nums)
+print("--- %s seconds ---" % (time.time() - start_time))
+# инициализации экземпляров класса
 @eel.expose
 def list_print():
     return L.print_asc(L.head)
@@ -333,5 +368,5 @@ def add_el_struct(add_el_number, add_el_name, add_el_text, add_el_tag, add_el_da
     list_data[:] = arr
     el.heapSort(list_data)
     return  el.sort_print(list_data)
-
+# реализация вызовов функций с взимодействием через компонент eel
 eel.start("index.html", size=(1000, 900))
